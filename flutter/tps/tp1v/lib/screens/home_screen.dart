@@ -57,7 +57,7 @@ class ProfileHomePage extends StatelessWidget {
         alignment: Alignment.center,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.blue, Colors.lightBlueAccent],
+            colors: [Colors.tealAccent, Colors.lightBlueAccent],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -68,7 +68,7 @@ class ProfileHomePage extends StatelessWidget {
             borderRadius: BorderRadius.circular(15),
 
             gradient: LinearGradient(
-              colors: [Colors.blue, Colors.purple],
+              colors: [Colors.black, Colors.black],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
 
@@ -84,7 +84,7 @@ class ProfileHomePage extends StatelessWidget {
             const SnackBar(content: Text("Profil édité avec succès !")),
           );
         },
-        backgroundColor: Colors.pink,
+        backgroundColor: Colors.purple,
         child: const Icon(Icons.edit),
       ),
     );

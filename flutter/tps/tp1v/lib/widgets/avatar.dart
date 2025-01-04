@@ -5,9 +5,12 @@ class Avatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CircleAvatar(
+    return CircleAvatar(
       radius: 44,
-      backgroundImage: NetworkImage('assets/pp.jpg'),
+      backgroundImage: const AssetImage('assets/pp.jpg'),
+      onBackgroundImageError: (exception, stackTrace) {
+        print('Erreur lors du chargement de l\'image : $exception');
+      },
     );
   }
 }

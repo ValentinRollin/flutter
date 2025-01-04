@@ -1,4 +1,4 @@
-name: tp1v
+name: tp1_quiz
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -63,7 +63,17 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   assets:
-    - assets/pp.jpg
+    - assets/images/nba_logo.jpg
+    - assets/images/gsw_logo.png
+    - assets/images/lebron-james.png
+    - assets/images/mj.png
+    - assets/images/kobe.png
+    - assets/images/giannis.png
+    - assets/images/westbrook.png
+    - assets/images/chamberlin.png
+    - assets/images/spurs.png
+    - assets/images/shaq.png
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 
