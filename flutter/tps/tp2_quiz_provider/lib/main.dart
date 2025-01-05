@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'screens/quiz_page.dart';
+import 'models/quiz_state.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => QuizState(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -12,10 +19,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Quiz NBA',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const QuizPage(title: 'Quiz NBA'),
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: const QuizPage(),
     );
   }
 }

@@ -1,4 +1,4 @@
-package com.example.tp1_quiz
+package com.example.tp2_quiz_provider
 
 import io.flutter.embedding.android.FlutterActivity
 
