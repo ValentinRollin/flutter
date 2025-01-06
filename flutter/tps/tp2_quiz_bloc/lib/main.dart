@@ -12,10 +12,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Quiz NBA',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const QuizPage(title: 'Quiz NBA'),
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: QuizPage(),
     );
   }
 }
+
