@@ -23,11 +23,6 @@ class QuizPage extends StatelessWidget {
         backgroundColor: Colors.deepPurple,
       ),
       backgroundColor: Colors.blueGrey,
-      floatingActionButton: FloatingActionButton(
-        onPressed: quizState.resetQuiz,
-        backgroundColor: Colors.deepPurple,
-        child: const Icon(Icons.refresh),
-      ),
       body: Container(
         padding: const EdgeInsets.all(16.0),
         child: Column(
