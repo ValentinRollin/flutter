@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "463815780988",
+    "project_id": "quiznba-cff30",
+    "storage_bucket": "quiznba-cff30.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:463815780988:android:6838cd7cf12217c9efb7f9",
+        "android_client_info": {
+          "package_name": "com.example.tp3"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmUqlLfKUN6ugTo9I0qbAQ4tuVTlM_Y18"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

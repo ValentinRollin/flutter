@@ -1,0 +1,57 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
+    id "dev.flutter.flutter-gradle-plugin"
+
+    // Ajout du plugin Google services
+    id "com.google.gms.google-services"
+}
+
+android {
+    namespace = "com.example.tp3"
+    compileSdk = flutter.compileSdkVersion
+    ndkVersion = flutter.ndkVersion
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        applicationId = "com.example.tp3"
+        minSdk = 23 // Assurez-vous que le minSdk est cohérent avec Firebase
+        targetSdk = flutter.targetSdkVersion
+        versionCode = flutter.versionCode
+        versionName = flutter.versionName
+    }
+
+    buildTypes {
+        release {
+            // TODO: Add your own signing config for the release build.
+            signingConfig = signingConfigs.debug
+        }
+    }
+}
+
+flutter {
+    source = "../.."
+}
+
+dependencies {
+    // Import Firebase BoM
+    implementation platform("com.google.firebase:firebase-bom:33.7.0")
+
+    // Dépendances Firebase spécifiques
+    implementation "com.google.firebase:firebase-analytics"
+    // Vous pouvez ajouter d'autres dépendances Firebase ici, par exemple :
+    // implementation "com.google.firebase:firebase-auth"
+    // implementation "com.google.firebase:firebase-firestore"
+}
+
+// Appliquer le plugin Google services
+apply plugin: "com.google.gms.google-services"
