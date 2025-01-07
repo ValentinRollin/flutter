@@ -11,15 +11,19 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.8
   provider: ^6.0.3
-  firebase_core: ^2.15.1
-  firebase_auth: ^4.8.0
-  cloud_firestore: ^4.8.0
-  firebase_analytics: ^10.3.1 # Ajout de la dépendance pour Firebase Analytics
+  firebase_core: ^3.10.0
+  firebase_auth: ^5.4.0
+  cloud_firestore: ^5.5.0
+  firebase_storage: ^12.4.0
+  image_picker: ^1.0.0
+  audioplayers: ^6.1.0
+  #firebase_analytics: ^10.3.1 # Ajout de la dépendance pour Firebase Analytics
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^4.0.0
+  flutter_lints: ^5.0.0
 
 flutter:
   uses-material-design: true
@@ -35,6 +39,15 @@ flutter:
     - assets/images/chamberlin.png
     - assets/images/spurs.png
     - assets/images/shaq.png
+    - assets/images/knicks.png
+    - assets/images/rockets.png
+    - assets/images/raptors.png
+    - assets/images/bucks.png
+    - assets/images/lakers.png
+    - assets/images/celtics.png
+    - assets/images/tp.png
+    - assets/images/wemba.png
+    - assets/default_avatar.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
