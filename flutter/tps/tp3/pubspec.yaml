@@ -48,6 +48,10 @@ flutter:
     - assets/images/tp.png
     - assets/images/wemba.png
     - assets/default_avatar.png
+    - assets/avatars/avatar1.png
+    - assets/avatars/avatar2.png
+    - assets/avatars/avatar3.png
+    - assets/avatars/avatar4.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

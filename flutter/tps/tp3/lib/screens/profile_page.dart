@@ -1,10 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:image_picker/image_picker.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -15,10 +11,17 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final user = FirebaseAuth.instance.currentUser;
-  String? avatarUrl;
+  String? selectedAvatar;
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _additionalInfoController = TextEditingController();
+
+  final List<String> localAvatars = [
+    'assets/avatars/avatar1.png',
+    'assets/avatars/avatar2.png',
+    'assets/avatars/avatar3.png',
+    'assets/avatars/avatar4.png',
+  ];
 
   @override
   void initState() {
@@ -33,7 +36,7 @@ class _ProfilePageState extends State<ProfilePage> {
         final data = snapshot.data();
 
         setState(() {
-          avatarUrl = data?['avatarUrl'];
+          selectedAvatar = data?['avatarUrl'];
           _nameController.text = data?['name'] ?? '';
           _emailController.text = user!.email ?? '';
           _additionalInfoController.text = data?['additionalInfo'] ?? '';
@@ -44,45 +47,26 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  Future<void> _uploadAvatar() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-
-    if (pickedFile != null) {
-      final file = File(pickedFile.path);
+  Future<void> _updateAvatar(String avatarPath) async {
+    if (user != null) {
       try {
-        final storageRef = FirebaseStorage.instance.ref('avatars/${user!.uid}.jpg');
-        await storageRef.putFile(file);
-        final url = await storageRef.getDownloadURL();
-
         await FirebaseFirestore.instance.collection('users').doc(user!.uid).update({
-          'avatarUrl': url,
+          'avatarUrl': avatarPath,
         });
 
         setState(() {
-          avatarUrl = url;
+          selectedAvatar = avatarPath;
         });
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Avatar mis à jour avec succès!')),
+        );
       } catch (e) {
-        print("Erreur lors du téléchargement de l'avatar : $e");
+        print("Erreur lors de la mise à jour de l'avatar : $e");
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Erreur lors de la mise à jour de l\'avatar.')),
+        );
       }
-    }
-  }
-
-  Future<void> _updateUserData() async {
-    try {
-      await FirebaseFirestore.instance.collection('users').doc(user!.uid).update({
-        'name': _nameController.text,
-        'additionalInfo': _additionalInfoController.text,
-      });
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Données mises à jour avec succès!')),
-      );
-    } catch (e) {
-      print("Erreur lors de la mise à jour des données utilisateur : $e");
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Erreur lors de la mise à jour des données.')),
-      );
     }
   }
 
@@ -97,22 +81,19 @@ class _ProfilePageState extends State<ProfilePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Center(
-              child: Column(
-                children: [
-                  CircleAvatar(
-                    radius: 50,
-                    backgroundImage: avatarUrl != null
-                        ? NetworkImage(avatarUrl!)
-                        : const AssetImage('assets/default_avatar.png') as ImageProvider,
-                  ),
-                  const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: _uploadAvatar,
-                    child: const Text("Mettre à jour l'avatar"),
-                  ),
-                ],
-              ),
+            const SizedBox(height: 20),
+            CircleAvatar(
+              radius: 50,
+              backgroundImage: selectedAvatar != null
+                  ? AssetImage(selectedAvatar!) as ImageProvider
+                  : const AssetImage('assets/avatars/avatar1.png'),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                _showAvatarSelectionDialog();
+              },
+              child: const Text("Choisir un avatar"),
             ),
             const SizedBox(height: 24),
             TextField(
@@ -141,11 +122,9 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             const SizedBox(height: 24),
             ElevatedButton(
-              onPressed: _updateUserData,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurple,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-              ),
+              onPressed: () {
+                _updateUserData();
+              },
               child: const Text('Enregistrer les modifications'),
             ),
           ],
@@ -153,6 +132,68 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     );
   }
+
+  void _showAvatarSelectionDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  "Choisissez un avatar",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 16),
+                GridView.builder(
+                  shrinkWrap: true,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 10,
+                  ),
+                  itemCount: localAvatars.length,
+                  itemBuilder: (context, index) {
+                    final avatarPath = localAvatars[index];
+                    return GestureDetector(
+                      onTap: () {
+                        _updateAvatar(avatarPath);
+                        Navigator.of(context).pop();
+                      },
+                      child: CircleAvatar(
+                        backgroundImage: AssetImage(avatarPath),
+                        radius: 40,
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _updateUserData() async {
+    try {
+      await FirebaseFirestore.instance.collection('users').doc(user!.uid).update({
+        'name': _nameController.text,
+        'additionalInfo': _additionalInfoController.text,
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Données mises à jour avec succès!')),
+      );
+    } catch (e) {
+      print("Erreur lors de la mise à jour des données utilisateur : $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Erreur lors de la mise à jour des données.')),
+      );
+    }
+  }
 }
-
-
