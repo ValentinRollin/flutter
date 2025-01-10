@@ -1,4 +1,4 @@
-# Projet Flutter - Organisation des fichiers
+# Flutter - Organisation des fichiers
 
 Ce git contient plusieurs travaux pratiques (TP) organisés dans des dossiers spécifiques. Les fichiers de code sont situés dans les dossiers `lib/` de chaque TP.
 
